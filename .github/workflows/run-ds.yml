@@ -1,0 +1,30 @@
+name: Run DS_mini
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install numpy matplotlib
+
+      - name: Run Direct Sampling demo
+        env:
+          MPLBACKEND: Agg
+        run: python ds_mini.py
+
+      - name: Upload result image
+        uses: actions/upload-artifact@v4
+        with:
+          name: ds_result
+          path: ds_result.png
